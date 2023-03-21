@@ -1,17 +1,15 @@
 from tkinter import *
 from PIL import ImageTk, Image
-
 class classWidget:
-    def __init__(self, screen, frame, bd, row, column):
+    def __init__(self, screen, bd, row, column):
         self.screen = screen
-        self.frame = frame
         self.bd = bd
         self.row = row
         self.column = column
 
 class classLabel(classWidget):
-    def __init__(self, screen, frame, text, bd, width, x, y):
-        super().__init__(screen, frame, bd, x, y)
+    def __init__(self, screen, text, bd, width, row, column):
+        super().__init__(screen, bd, row, column)
         self.text = text
         self.width = width
 
@@ -22,11 +20,24 @@ class classLabel(classWidget):
         self.input.grid(row = self.row, column = self.column+1)
 
 class classButton(classWidget):
-    def __init__(self, screen, frame, text, func, bd, row, column):
-        super().__init__(screen, frame, bd, row, column)
+    def __init__(self, screen, text, func, bd, row, column):
+        super().__init__(screen, bd, row, column)
         self.text = text
         self.func = func
 
-        self.button = Button(self.frame, text = self.text, bd=self.bd, command=self.func)
+        self.button = Button(self.screen, text = self.text, bd=self.bd, command=self.func)
 
         self.button.grid(row = self.row, column = self.column)
+
+class classImage(classWidget):
+    def __init__(self, screen, imagePath, bd, row, column):
+        super().__init__(screen, bd, row, column)
+        self.imagePath = imagePath
+
+        self.image = Image.open(self.imagePath)
+        self.photo = ImageTk.PhotoImage(self.image)
+
+        self.label = Label(self.screen, image = self.photo)
+        self.label.image = self.photo
+
+        self.label.grid(row = self.row, column = self.column)
